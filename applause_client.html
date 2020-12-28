@@ -2,68 +2,20 @@
 <html lang="de">
 <head>
 	<meta charset="utf-8" />
-	<title>Howler</title>
+	<title>Applause-Tool</title>
 	<meta name="generator" content="BBEdit 13.5" />
+
+	<script src="howler.js"></script>
+	<script src="applause_sse.js"></script> 
+	<script src="applause_audio.js"></script>
+
 </head>
 <body>
-<h2>Howler</h2>
-<script src="howler.js"></script>
-<script>
-	function playAudio(rate) { 
-		if (!rate) {
-			rate = 1;
-		}
-		
-    	var sound = new Howl({
-      		src: ['applaus1.mp3'],
-      		loop: true, 
-      		rate: rate
-	    });
-	    sound.loop();
-    	sound.play();
-    }
-</script>
+<h2>Applaus-Tool</h2>
+<p>Created by Stefan Mueller, for <a href="https://live-hoerspiel.ch">https://live-hoerspiel.ch</a> by <a href="https://luxundludus.ch">https://luxundludus.ch</a>, using <a hreF="https://howlerjs.com">https://howlerjs.com</a>, Server Side Events and (yuck) PHP.
+</p>
 
 
-<script>
-// establish stream from remote Applause and listener for changes
-const evtSource = new EventSource("https://mullzk.ch/rep/applause/applause_sse.php");
-
-var listener = function (event) {
-    if(typeof event.data !== 'undefined'){
-	    if (event.type=="message") {
-		    setRemoteApplause(event.data);
-	    }
-    }
-};
-var setRemoteApplause = function(applause) {
-	printer = document.getElementById("current_applause");
-	printer.textContent = applause;
-};
-
-evtSource.addEventListener("open", listener);
-evtSource.addEventListener("message", listener);
-evtSource.addEventListener("error", listener);
-
-function startApplauding() {
-	sendActionToApplauseHandler("startApplauding");
-}
-function stopApplauding() {
-	sendActionToApplauseHandler("stopApplauding");	
-}
-function sendActionToApplauseHandler(action) {
-	var url = "https://mullzk.ch/rep/applause/applause_handler.php?action=" + action;
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", url, true);
-
-	//Send the proper header information along with the request
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	xhr.send();	
-	
-}
-
-</script>
 
 <label>Currently Applauding:</label>
 <p id="current_applause"></p>

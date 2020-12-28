@@ -3,7 +3,6 @@
 /* 
 	See: https://kevinchoppin.dev/blog/server-sent-events-in-php
 		 https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
-		 https://www.kevssite.com/seamless-audio-looping/
 */
 
 
