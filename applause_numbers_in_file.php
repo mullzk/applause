@@ -1,4 +1,22 @@
 <?php
+
+/*
+	These functions provide a basic 'model' of an integer, stored in a text-file. 
+	The functions are used by: 
+		- applause_handler.php when adding or removing applause to applause_state.txt
+		- applause_sse when reading the current applause (for sending to the client) 
+		  and when registering and registering clients in applause_current_users.txt.
+		- applause_users_sse when reading registered users and sending to Admin-Website
+	
+	
+	caveat: Due to the very simple demands of this project, the File-Handling is 
+	very sloppy: 
+		- We do not check wether the file exists. If it doesn't, the functions (except 
+		  the simple setter) produce an E_WARNING and possibly crash. 
+		- We do not not lock the File between reading and writing when we increase or
+		  decrease the number
+
+*/
 function get_number_from_file($filepath) {
 	return intval(trim(file_get_contents($filepath)));
 }

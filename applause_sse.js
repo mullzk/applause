@@ -1,8 +1,18 @@
-// establish stream from remote Applause and listener for changes
+/*
+	Javascript used by applause_client.html and applause_server.html 
+	- connecting to Server-Side Events on remote-applauding Users, updating the view and 
+	  playing the remote applause via applause_audio.js  
+	- connecting to Server-Side Events on registered Users (applause_server only) 
+	  and updating the respective view. 
+	- Start and Stop Applauding:
+		o local via applause_audio.js
+		o sending remote-applause to Server via AJAX-Call
+*/
+
+// establish stream for remotely applauding users and listen for changes
 var listener = function (event) {
     if(typeof event.data !== 'undefined'){
 	    if (event.type=="message") {
-	    	console.log("applause");
 			setRemoteApplause(event.data);
 	    }
     }
@@ -13,14 +23,15 @@ var setRemoteApplause = function(applause) {
 	printer.textContent = applause;
 };
 
-
-
 const evtSource = new EventSource("./applause_sse.php");
 evtSource.addEventListener("open", listener);
 evtSource.addEventListener("message", listener);
 evtSource.addEventListener("error", listener);
 
-/* If we are in applause_client.html which has a p#current_users, then we also connect to SSE-Stream for current_users */
+
+
+
+// If we are in applause_client.html then we also connect to SSE-Stream for current_users 
 var setCurrentUsers;
 var evtUserSource;
 function setupSSEStreamAndListenerForCurrentUsers() {

@@ -1,8 +1,15 @@
 <?php
 
 /* 
-	See: https://kevinchoppin.dev/blog/server-sent-events-in-php
-		 https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
+	Source for Server Side Events: Currently registered users 
+	
+	applause_server.html connects (via applause_sse.js) to this ServerSideEvent and gets
+	updated, when the number of registered (=connected) users is changed in 
+	applause_current_users.txt.
+	
+	The logic of the Server Side Events is copied from: 
+	https://kevinchoppin.dev/blog/server-sent-events-in-php and 
+https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
 */
 
 

@@ -8,14 +8,17 @@
 	</head>
 	<body>
 		<h1>Admin-Bereich für Applause-Tool</h1>
-		<label>Aktuell applaudieren:</label>
-		<p id="current_applause"></p>
-
 		<label>Aktuell sind im Applaus-System registriert:</label>
 		<p id="current_users"></p>
 		<script> 
 			setupSSEStreamAndListenerForCurrentUsers(); 
 		</script>
+
+
+		<label>Aktuell applaudieren:</label>
+		<p id="current_applause"></p>
+
 		<button type="button" onclick="stopAllApplause()">Stop all Applaus</button>
+
 	</body>
 </html>
