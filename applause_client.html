@@ -18,9 +18,11 @@
 
 
 <label>Currently Applauding:</label>
-<p id="current_applause"></p>
+<p id="current_applause"> </p>
 
-<button type="button" onMouseDown="startApplauding()" onMouseUp="stopApplauding()">Applaud</button>
+<button type="button"  id="applaudButton" style="-webkit-appearance: none;" onPointerDown="startApplauding()" onPointerUp="stopApplauding()" >
+<img src="claphands.svg" height="80px"  id="claphands"  style="-webkit-touch-callout:none;"/>
+</button>
 
 
 <h4>Persistent Buttons, for Development only</h4>

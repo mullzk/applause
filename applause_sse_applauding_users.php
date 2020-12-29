@@ -57,7 +57,7 @@ while (true) {
 	ob_flush();
 	flush();
   }
-  sleep(1);
+  usleep(200);
   // Break the loop if the client aborted the connection (closed the page)
   if ( connection_aborted() ) {
   	unregister_user();

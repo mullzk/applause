@@ -7,6 +7,7 @@
 var applaus_local = new Howl({
 		src: ['applaus_local.mp3'],
 		loop: true, 
+		volume: 1, 
 		rate: 1
 });
 var applaus_remote = [];
@@ -30,11 +31,11 @@ function play_remote_applaus(users) {
 				applaus_remote.push(new Howl({
 					src: ['applaus_remote.mp3'],
 					loop: true, 
-					volume: 1.0,
-					rate: (Math.random()*2+0.6)
+					volume: 0.5,
+					rate: (Math.random()*1.2+0.6)
 				}));
 				applaus_remote[i].play();
-				applaus_remote[i].volume(0.1);
+				applaus_remote[i].volume(0.5);
 //				applaus_remote[i].fade(0.0, 1.0, 2000);
 			}
 		} else {

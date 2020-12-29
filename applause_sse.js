@@ -56,10 +56,12 @@ function setupSSEStreamAndListenerForCurrentUsers() {
 // AJAX-Request for starting and stoping to applaud
 function startApplauding() {
 	play_local_applaus();
+	document.getElementById("claphands").src="clappinghands.svg"
 	sendActionToApplauseHandler("startApplauding");
 }
 function stopApplauding() {
 	stop_local_applaus();
+	document.getElementById("claphands").src="claphands.svg"
 	sendActionToApplauseHandler("stopApplauding");	
 }
 function stopAllApplause() {
