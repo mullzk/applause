@@ -19,6 +19,7 @@ var listener = function (event) {
 };
 
 var setRemoteApplause = function(applause) {
+	play_remote_applaus(Math.min(applause, 5));
 	printer = document.getElementById("current_applause");
 	printer.textContent = applause;
 };
@@ -54,9 +55,11 @@ function setupSSEStreamAndListenerForCurrentUsers() {
 
 // AJAX-Request for starting and stoping to applaud
 function startApplauding() {
+	play_local_applaus();
 	sendActionToApplauseHandler("startApplauding");
 }
 function stopApplauding() {
+	stop_local_applaus();
 	sendActionToApplauseHandler("stopApplauding");	
 }
 function stopAllApplause() {
