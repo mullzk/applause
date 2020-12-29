@@ -1,13 +1,11 @@
 <?php
 
 /* 
-	Source for Server Side Events: Currently applauding users 
+	Source for Server Side Events: Currently registered users 
 	
-	The Javascript in applause_client.html and applause_server.html connect (via 
-	applause_sse.js) to this ServerSideEvent and get Updated, when the number of 
-	applauding users is changed in applause_state.txt
-	Whenever a new connection is established, we register the new User in 
-	applause_current_users.txt, and we unregister him, when the connection is aborted
+	applause_server.html connects (via applause_sse.js) to this ServerSideEvent and gets
+	updated, when the number of registered (=connected) users is changed in 
+	applause_state_registered_users.txt.
 	
 	The logic of the Server Side Events is copied from: 
 	https://kevinchoppin.dev/blog/server-sent-events-in-php and 
@@ -27,7 +25,6 @@ require("applause_numbers_in_file.php");
 // Is this a new stream or an existing one?
 $lastEventId = floatval(isset($_SERVER["HTTP_LAST_EVENT_ID"]) ? $_SERVER["HTTP_LAST_EVENT_ID"] : 0);
 if ($lastEventId == 0) {
-	register_new_user();
 	$lastEventId = floatval(isset($_GET["lastEventId"]) ? $_GET["lastEventId"] : 0);
 }
 
@@ -35,19 +32,19 @@ if ($lastEventId == 0) {
 echo ":" . str_repeat(" ", 2048) . "\n"; 
 echo "retry: 2000\n";
 
-$old_claps = 0;
+$old_users = 0;
 
 
 while (true) {
-  // Read from applause_state.txt, how many people are currently applauding
-  $current_claps = get_number_from_file("applause_state.txt");
+  // Read from applause_state.txt, how many event streams are currently online
+  $current_users = get_number_from_file("applause_state_registered_users.txt");
   
   
-  if ($current_claps != $old_claps) {
+  if ($current_users != $old_users) {
 	$lastEventId = $lastEventId+1;
-	$old_claps = $current_claps;
-	echo "id: " . $lastEventId . "\n";
-	echo "data: $current_claps \n\n";
+	$old_users = $current_users;
+	echo "id: $lastEventId \n";
+	echo "data: $current_users \n\n";
 	ob_flush();
 	flush();
   } else {
@@ -59,7 +56,6 @@ while (true) {
   sleep(1);
   // Break the loop if the client aborted the connection (closed the page)
   if ( connection_aborted() ) {
-  	unregister_user();
   	break;
   }
 
@@ -68,10 +64,4 @@ while (true) {
 
 
 
-function register_new_user() {
-	increase_number_in_file("applause_current_users.txt");
-}
-function unregister_user() {
-	decrease_number_in_file("applause_current_users.txt");
-}
 ?>

@@ -23,7 +23,7 @@ var setRemoteApplause = function(applause) {
 	printer.textContent = applause;
 };
 
-const evtSource = new EventSource("./applause_sse.php");
+const evtSource = new EventSource("./applause_sse_applauding_users.php");
 evtSource.addEventListener("open", listener);
 evtSource.addEventListener("message", listener);
 evtSource.addEventListener("error", listener);
@@ -35,7 +35,7 @@ evtSource.addEventListener("error", listener);
 var setCurrentUsers;
 var evtUserSource;
 function setupSSEStreamAndListenerForCurrentUsers() {
-	evtUserSource = new EventSource("./applause_users_sse.php");
+	evtUserSource = new EventSource("./applause_sse_registered_users.php");
 	evtUserSource.addEventListener("message", function (event) {
 			if(typeof event.data !== 'undefined'){
 				setCurrentUsers(event.data);
