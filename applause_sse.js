@@ -54,14 +54,27 @@ function setupSSEStreamAndListenerForCurrentUsers() {
 
 
 // AJAX-Request for starting and stoping to applaud
+function mdebug(text) {
+	document.getElementById("debugger").appendChild(document.createTextNode(text));
+}
+
+var isTouch = ('ontouchstart' in window);
+var stopApplaudingTimer;
+
 function startApplauding() {
 	play_local_applaus();
-	document.getElementById("claphands").src="clappinghands.svg"
+	document.getElementById("applaudButton").style.background="url('clappinghands.svg')"
 	sendActionToApplauseHandler("startApplauding");
+	if (isTouch) {
+		// Touch Devices sometimes do not properly handle mouseDown and mouseUp on the button, so we ensure that the Applause stops after 5 seconds.
+		stopApplaudingTimer = setTimeout(stopApplauding, 5000);
+	}
 }
+
+
 function stopApplauding() {
 	stop_local_applaus();
-	document.getElementById("claphands").src="claphands.svg"
+	document.getElementById("applaudButton").style.background="url('claphands.svg')"
 	sendActionToApplauseHandler("stopApplauding");	
 }
 function stopAllApplause() {

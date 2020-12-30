@@ -6,7 +6,7 @@
 	<meta name="generator" content="BBEdit 13.5" />
 
 	<script src="howler.js"></script>
-	<script src="applause_sse.js"></script> 
+	<script src="applause_sse.js?version=11"></script> 
 	<script src="applause_audio.js"></script>
 
 </head>
@@ -15,19 +15,20 @@
 <p>Created by Stefan Mueller, for <a href="https://live-hoerspiel.ch">https://live-hoerspiel.ch</a> by <a href="https://luxundludus.ch">https://luxundludus.ch</a>, using <a hreF="https://howlerjs.com">https://howlerjs.com</a>, Server Side Events and (yuck) PHP.
 </p>
 
-
-
-<label>Currently Applauding:</label>
-<p id="current_applause"> </p>
-
-<button type="button"  id="applaudButton" style="-webkit-appearance: none;" onPointerDown="startApplauding()" onPointerUp="stopApplauding()" >
-<img src="claphands.svg" height="80px"  id="claphands"  style="-webkit-touch-callout:none;"/>
+<div style:"user-select:none;">
+Applaudiere uns: 
+<button type="button"  id="applaudButton" style="height: 6em; width:6em; -webkit-appearance: none; background:url('claphands.svg');" onMouseDown="startApplauding()" onMouseUp="stopApplauding()" >
 </button>
-
+</div>
 
 <h4>Persistent Buttons, for Development only</h4>
 <button type="button" onclick="startApplauding()">Start Applauding</button>
 <button type="button" onclick="stopApplauding()">Stop Applauding</button>
+
+<label>Currently Applauding:</label>
+<p id="current_applause"> </p>
+
+<p id="debugger"> </p>
 
 
 </body>
