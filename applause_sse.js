@@ -63,20 +63,20 @@ var stopApplaudingTimer;
 
 function startApplauding() {
 	play_local_applaus();
-	document.getElementById("applaudButton").style.background="url('clappinghands.svg')"
+	document.getElementById("applauseButton").style.background="url('clappinghands.svg')"
 	sendActionToApplauseHandler("startApplauding");
 	if (isTouch) {
-		// Touch Devices sometimes do not properly handle mouseDown and mouseUp on the button, so we ensure that the Applause stops after 5 seconds.
-		stopApplaudingTimer = setTimeout(stopApplauding, 5000);
+		// Touch Devices sometimes do not properly handle pointerDown- and pointerUp-Events on the DIV, so we ensure that the Applause stops after 7 seconds.
+		stopApplaudingTimer = setTimeout(stopApplauding, 7000);
 	}
 }
 
-
 function stopApplauding() {
 	stop_local_applaus();
-	document.getElementById("applaudButton").style.background="url('claphands.svg')"
+	document.getElementById("applauseButton").style.background="url('claphands.svg')"
 	sendActionToApplauseHandler("stopApplauding");	
 }
+
 function stopAllApplause() {
 	sendActionToApplauseHandler("stopAllApplause");
 }

@@ -9,21 +9,37 @@
 	<script src="applause_sse.js?version=11"></script> 
 	<script src="applause_audio.js"></script>
 
+<style>
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select = none;
+  -webkit-touch-callout: none;
+}
+#applauseButton {
+	height: 6em; 
+	width:6em; 
+	background:url('claphands.svg');
+}
+
+</style>
+
 </head>
 <body>
 <h2>Applaus-Tool</h2>
 <p>Created by Stefan Mueller, for <a href="https://live-hoerspiel.ch">https://live-hoerspiel.ch</a> by <a href="https://luxundludus.ch">https://luxundludus.ch</a>, using <a hreF="https://howlerjs.com">https://howlerjs.com</a>, Server Side Events and (yuck) PHP.
 </p>
 
-<div style:"user-select:none;">
-Applaudiere uns: 
-<button type="button"  id="applaudButton" style="height: 6em; width:6em; -webkit-appearance: none; background:url('claphands.svg');" onMouseDown="startApplauding()" onMouseUp="stopApplauding()" >
-</button>
+<div class="unselectable">
+<p>Gib uns Applaus: </p>
+<div id="applauseButton" onPointerDown="startApplauding()" onPointerUp="stopApplauding()"  />
 </div>
 
 <h4>Persistent Buttons, for Development only</h4>
 <button type="button" onclick="startApplauding()">Start Applauding</button>
 <button type="button" onclick="stopApplauding()">Stop Applauding</button>
+<br />
 
 <label>Currently Applauding:</label>
 <p id="current_applause"> </p>
