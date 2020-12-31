@@ -21,7 +21,9 @@ var listener = function (event) {
 var setRemoteApplause = function(applause) {
 	play_remote_applaus(Math.min(applause, 5));
 	printer = document.getElementById("current_applause");
-	printer.textContent = applause;
+	if (printer) {
+		printer.textContent = applause;
+	}
 };
 
 const evtSource = new EventSource("./applause_sse_applauding_users.php");
@@ -32,7 +34,7 @@ evtSource.addEventListener("error", listener);
 
 
 
-// If we are in applause_client.html then we also connect to SSE-Stream for current_users 
+// If we are in applause_server.html then we also connect to SSE-Stream for current_users 
 var setCurrentUsers;
 var evtUserSource;
 function setupSSEStreamAndListenerForCurrentUsers() {
@@ -55,27 +57,50 @@ function setupSSEStreamAndListenerForCurrentUsers() {
 
 // AJAX-Request for starting and stoping to applaud
 function mdebug(text) {
-	document.getElementById("debugger").appendChild(document.createTextNode(text));
+	var debug = document.getElementById("debugger");
+	if (debug) {
+		var p = document.createElement("p");
+		p.appendChild(document.createTextNode(text));
+		debug.appendChild(p);
+	}
 }
 
 var isTouch = ('ontouchstart' in window);
+var isCurrentlyApplauding = false;
 var stopApplaudingTimer;
 
+
 function startApplauding() {
-	play_local_applaus();
-	document.getElementById("applauseButton").style.background="url('clappinghands.svg')"
-	sendActionToApplauseHandler("startApplauding");
-	if (isTouch) {
-		// Touch Devices sometimes do not properly handle pointerDown- and pointerUp-Events on the DIV, so we ensure that the Applause stops after 7 seconds.
-		stopApplaudingTimer = setTimeout(stopApplauding, 7000);
+	if (!isCurrentlyApplauding) {
+		isCurrentlyApplauding = true;
+		document.getElementById("applauseButton").style.background="url('clappinghands.svg')"
+		play_local_applaus();
+		sendActionToApplauseHandler("startApplauding");
+		if (isTouch) {
+			// Touch Devices sometimes do not properly handle pointerDown- and pointerUp-Events on the DIV, so we ensure that the Applause stops after 7 seconds.
+			stopApplaudingTimer = setTimeout(stopApplauding, 7000);
+		}
 	}
 }
 
 function stopApplauding() {
-	stop_local_applaus();
-	document.getElementById("applauseButton").style.background="url('claphands.svg')"
-	sendActionToApplauseHandler("stopApplauding");	
+	if (isCurrentlyApplauding) {
+		var workerfunction = function() {
+			stop_local_applaus();
+			sendActionToApplauseHandler("stopApplauding");	
+			isCurrentlyApplauding = false;
+			document.getElementById("applauseButton").style.background="url('claphands.svg')"	
+		};
+		if (isTouch) {
+			// Touch Devices sometimes do not properly handle pointerDown- and pointerUp-Events on the DIV, so we ensure that the Applause stops after 7 seconds.
+			var stopLocalApplauseTimer = setTimeout(workerfunction, 1500);
+		} else {
+			workerfunction();
+		}
+	}
 }
+
+
 
 function stopAllApplause() {
 	sendActionToApplauseHandler("stopAllApplause");
